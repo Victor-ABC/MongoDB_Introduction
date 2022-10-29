@@ -5,6 +5,23 @@ import Professor from './models/professor.js';
 import Student from './models/student.js';
 import MongoDB from "mongodb";
 
+const userName = 'user';
+const password = 'mypass';
+const databaseName = 'mydatabase';
+const url = 'mongodb://localhost:27017';
+const options = {   
+    useNewUrlParser: true, 
+    useUnifiedTopology: true,
+    auth: { 
+        username: userName, 
+        password: password 
+    }, 
+    authSource: databaseName
+};
+//CollectionNames
+const PERSON_COLLECTION_NAME = "PERSON";
+const HOCHSCHULE_COLLECTION_NAME = "HOCHSCHULE";
+const KURS_COLLECTION_NAME = "KURS";
 //Models erzeugen
 var fh_muenster = new Hochschule("FA Münster");
 var studenten = [
@@ -21,31 +38,32 @@ var kurs = new Kurs(
     fh_muenster,
 );
 
-
-
-const userName = 'user';
-const password = 'mypass';
-const databaseName = 'mydatabase';
-const url = 'mongodb://localhost:27017';
-const options = {   
-    useNewUrlParser: true, 
-    useUnifiedTopology: true,
-    auth: { 
-        username: userName, 
-        password: password 
-    }, 
-    authSource: databaseName
-    };
 MongoDB.MongoClient.connect(url, options, async (err, client) => {
     if (err) {
         console.log('Could not connect to MongoDB: ', err.stack);
         process.exit(1);
     } else {
             var db = client.db(databaseName);
-            db.collection("person").drop(); //delete old
-            var personCollection = db.collection("person"); //create new by accesing non existing
-            await personCollection.insertMany([studenten, professor]);
-            var documents = await personCollection.find({}).toArray();
-            console.log(documents);
+            var personCollection = await db.collection(PERSON_COLLECTION_NAME); //creates collection by accessing a non existing one
+            var hochschuleCollection = await db.collection(HOCHSCHULE_COLLECTION_NAME);
+            var kursCollection = await db.collection(KURS_COLLECTION_NAME)
+            //### Insert ###
+            //Todo: Insert all Persons
+            await personCollection.insertMany([...studenten, professor]);
+            //Todo: Insert Hochschule
+            await hochschuleCollection.insertOne(fh_muenster);
+            //Todo: Insert Kurs
+            await kursCollection.insertOne(kurs);
+            //### Select ###
+            var result_personen = await personCollection.find({}).toArray();
+            console.log(result_personen);
+            var resutl_hochschule = await hochschuleCollection.find({}).toArray();
+            console.log(resutl_hochschule);
+            var result_kurs = await kursCollection.find({}).toArray();
+            console.log(result_kurs);
+            //clear DB
+            personCollection.deleteMany({});
+            hochschuleCollection.deleteMany({});
+            kursCollection.deleteMany({});
         }
 });

@@ -26,22 +26,12 @@ startDB(
         var personCollection = db.collection("person");
         var hochschuleCollection = db.collection("hochschule");
         var kursCollection = db.collection("kurs");
-        await insertPersonen(personCollection);
-        //await selectPersonen(personCollection);
-        //personCollection.drop();
+        await collection.insertMany([employees, professor], (err, result) => {
+            if (!err) { console.log('Inserted ' + result.insertedCount); }
+        });
+        await personCollection.find()
+        .toArray((err, resultSet) => {
+            if(!err) console.log(resultSet);
+        });
     }
 );
-
-//Insert Data to DataBase
-async function insertPersonen(personCollection) {
-    //Save Studenten
-    const result = await personCollection.insertMany()
-    //Insert Professor
-}
-//Select Data from DataBase
-async function selectPersonen(personCollection) {
-    personCollection.find()
-    .toArray((err, resultSet) => {
-        if(!err) console.log(resultSet);
-    });
-}

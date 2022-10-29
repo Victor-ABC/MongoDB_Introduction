@@ -1,19 +1,26 @@
+import Course from './models/course.js';
 import Hochschule from './models/hochschule.js';
+import Professor from './models/professor.js';
 import Student from './models/student.js';
 console.log("##### Starting Demo #####");
 
 var fh_muenster = new Hochschule("FA Münster");
-//var person1 = new Student("tim", 20, fh_muenster, "1234");
+var student1 = new Student("tim", 22, fh_muenster, "1234");
+var student2 = new Student("simon", 21, fh_muenster, "1235");
+var student3 = new Student("kevin", 23, fh_muenster, "1236");
+var student4 = new Student("pascal", 22, fh_muenster, "1237");
+var professor = new Professor("Humernbrum", 30, fh_muenster);
+var course = new Course(
+    "BigData", [
+        student1,
+        student2,
+        student3,
+        student4,
+    ],
+    professor
+);
 
-
-
-
-
-
-
-
-
-
+console.log(course.toString());
 
 
 

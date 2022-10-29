@@ -6,7 +6,7 @@ export default class Student extends Person {
       this.matrNr = matrNr;
     }
     toString() {
-        return super.toString() + "matrNr: " + this.matrNr + " hochschule: " + this.hochschule.name;
+        return super.toString() + " matrNr: " + this.matrNr + " hochschule: " + this.hochschule.name;
     }
   }
   

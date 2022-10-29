@@ -5,7 +5,7 @@ export default class Course {
       this.leser = leser;
     }
     toString() {
-        var hoerer = "hoerer: " + this.hoerer.map(e => " name: " + e.name).toString();
+        var hoerer = this.hoerer.map(e => "\n{" + e.toString() +  "}").toString();
         return "Der Kurs '" + this.name + " wird gelesen von Prof. " + this.leser.name + " und gehört von " + hoerer;
     }
   }

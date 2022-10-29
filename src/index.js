@@ -1,10 +1,29 @@
-import collection from './mongo_access/db.js';
+import Hochschule from './models/hochschule.js';
+import Student from './models/student.js';
+console.log("##### Starting Demo #####");
+
+var fh_muenster = new Hochschule("FA Münster");
+//var person1 = new Student("tim", 20, fh_muenster, "1234");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //CRUD
 //Create
-await runInsertion(collection);
+//await runInsertion(collection);
 //Read
-await runSelection(collection);
+//await runSelection(collection);
 //Update
 //Delete
 

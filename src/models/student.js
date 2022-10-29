@@ -1,9 +1,9 @@
-import Person from "./person";
+import Person from "./person.js";
 
 export default class Student extends Person {
-    constructor(matrNr, hochschule) {
+    constructor(name, age, hochschule, matrNr) {
+      super(name, age, hochschule);
       this.matrNr = matrNr;
-      this.hochschule = hochschule;
     }
     toString() {
         return super.toString() + "matrNr: " + this.matrNr + " hochschule: " + this.hochschule.name;

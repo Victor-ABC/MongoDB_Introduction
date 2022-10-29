@@ -1,4 +1,4 @@
-import Course from './models/course.js';
+import Kurs from './models/kurs.js';
 import Hochschule from './models/hochschule.js';
 import Professor from './models/professor.js';
 import Student from './models/student.js';
@@ -10,14 +10,15 @@ var student2 = new Student("simon", 21, fh_muenster, "1235");
 var student3 = new Student("kevin", 23, fh_muenster, "1236");
 var student4 = new Student("pascal", 22, fh_muenster, "1237");
 var professor = new Professor("Humernbrum", 30, fh_muenster);
-var course = new Course(
+var course = new Kurs(
     "BigData", [
         student1,
         student2,
         student3,
         student4,
     ],
-    professor
+    professor,
+    fh_muenster,
 );
 
 console.log(course.toString());

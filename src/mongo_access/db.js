@@ -13,14 +13,22 @@ const options = {
     }, 
     authSource: databaseName
 };
-let collection = null;
+let personCollection = null;
+let hochschuleCollection = null;
+let studentCollection = null;
+let professorCollection = null;
+let courseCollection = null;
+
 MongoDB.MongoClient.connect(url, options, async (err, client) => {
     if (err) {
         console.log('Could not connect to MongoDB: ', err.stack);
         process.exit(1);
     } else {
         var db = client.db(databaseName);
-        collection = db.collection('employees');
+        personCollection = db.collection('person');
+        //hochschuleCollection = db.collection('hochschule');
     }
 });
-export default collection;
+export {
+    personCollection
+};

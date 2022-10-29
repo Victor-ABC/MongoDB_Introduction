@@ -3,7 +3,7 @@ import Kurs from './models/kurs.js';
 import Hochschule from './models/hochschule.js';
 import Professor from './models/professor.js';
 import Student from './models/student.js';
-import startDB from './mongo_access/db.js';
+import MongoDB from "mongodb";
 
 //Models erzeugen
 var fh_muenster = new Hochschule("FA Münster");
@@ -21,17 +21,31 @@ var kurs = new Kurs(
     fh_muenster,
 );
 
-startDB(
-    async function (db) {
-        var personCollection = db.collection("person");
-        var hochschuleCollection = db.collection("hochschule");
-        var kursCollection = db.collection("kurs");
-        await collection.insertMany([employees, professor], (err, result) => {
-            if (!err) { console.log('Inserted ' + result.insertedCount); }
-        });
-        await personCollection.find()
-        .toArray((err, resultSet) => {
-            if(!err) console.log(resultSet);
-        });
-    }
-);
+
+
+const userName = 'user';
+const password = 'mypass';
+const databaseName = 'mydatabase';
+const url = 'mongodb://localhost:27017';
+const options = {   
+    useNewUrlParser: true, 
+    useUnifiedTopology: true,
+    auth: { 
+        username: userName, 
+        password: password 
+    }, 
+    authSource: databaseName
+    };
+MongoDB.MongoClient.connect(url, options, async (err, client) => {
+    if (err) {
+        console.log('Could not connect to MongoDB: ', err.stack);
+        process.exit(1);
+    } else {
+            var db = client.db(databaseName);
+            db.collection("person").drop(); //delete old
+            var personCollection = db.collection("person"); //create new by accesing non existing
+            await personCollection.insertMany([studenten, professor]);
+            var documents = await personCollection.find({}).toArray();
+            console.log(documents);
+        }
+});

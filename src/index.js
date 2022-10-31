@@ -18,11 +18,11 @@ const options = {
     }, 
     authSource: databaseName
 };
-//CollectionNames
+//Collection Namen
 const PERSON_COLLECTION_NAME = "PERSON";
 const HOCHSCHULE_COLLECTION_NAME = "HOCHSCHULE";
 const KURS_COLLECTION_NAME = "KURS";
-//Models erzeugen
+//Objekte erzeugen
 var fh_muenster = new Hochschule("FA Münster");
 var studenten = [
     new Student("tim", 22, fh_muenster, "1234"),
@@ -47,20 +47,13 @@ MongoDB.MongoClient.connect(url, options, async (err, client) => {
             var personCollection = await db.collection(PERSON_COLLECTION_NAME); //creates collection by accessing a non existing one
             var hochschuleCollection = await db.collection(HOCHSCHULE_COLLECTION_NAME);
             var kursCollection = await db.collection(KURS_COLLECTION_NAME)
-            //### Insert ###
-            //Todo: Insert all Persons
-            await personCollection.insertMany([...studenten, professor]);
-            //Todo: Insert Hochschule
-            await hochschuleCollection.insertOne(fh_muenster);
-            //Todo: Insert Kurs
-            await kursCollection.insertOne(kurs);
-            //### Select ###
-            var result_personen = await personCollection.find({}).toArray();
-            console.log(result_personen);
-            var resutl_hochschule = await hochschuleCollection.find({}).toArray();
-            console.log(resutl_hochschule);
-            var result_kurs = await kursCollection.find({}).toArray();
-            console.log(result_kurs);
+
+            //### Todo: Hier ihre Lösung einfügen ###
+
+
+
+            //### Todo-Ende ###
+            
             //clear DB
             personCollection.deleteMany({});
             hochschuleCollection.deleteMany({});

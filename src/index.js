@@ -22,10 +22,10 @@ const PERSON_COLLECTION_NAME = "PERSON";
 const KURS_COLLECTION_NAME = "KURS";
 //Objekte erzeugen
 var studenten = [
-    new Student("tim", 22, "1234"),
-    new Student("simon", 21, "1235"),
-    new Student("kevin", 23, "1236"),
-    new Student("pascal", 22, "1237")
+    new Student("Tim", 22, "1234"),
+    new Student("Simon", 21, "1235"),
+    new Student("Kevin", 23, "1236"),
+    new Student("Pascal", 22, "1237")
 ];
 var professor = new Professor("Humernbrum", 30);
 var kurs = new Kurs("BigData");
@@ -44,10 +44,14 @@ MongoDB.MongoClient.connect(url, options, async (err, client) => {
             await personCollection.insertMany([...studenten, professor]);
             await kursCollection.insertOne(kurs);
 
-
-            var result = await personCollection.find({}).toArray();
+            await kursCollection.updateOne({name: "BigData"}, {$set: {hoerer: [
+                await personCollection.findOne({name: "Tim"})
+            ]}})
+            await personCollection.updateOne({name: "Tim"}, {$set: {name: "Tim2"}});
+            var result = await kursCollection.findOne({});
+            var result2 = await personCollection.findOne({name: "Tim2"})
             console.log(result);
-
+            console.log(result2);
             //### Todo-Ende ###
 
             //clear DB

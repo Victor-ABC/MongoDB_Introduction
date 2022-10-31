@@ -1,12 +1,11 @@
 import Person from "./person.js";
 
 export default class Professor extends Person {
-    constructor(name, age, hochschule,) {
+    constructor(name, age) {
         super(name, age);
-        this.hochschule = hochschule;
     }
     toString() {
-        return super.toString() + " hochschule: " + this.hochschule;
+        return super.toString();
     }
   }
   

@@ -1,8 +1,7 @@
 console.log("##### Starting Demo #####");
-import Kurs from './models/kurs.js';
-import Hochschule from './models/hochschule.js';
 import Professor from './models/professor.js';
 import Student from './models/student.js';
+import Kurs from './models/kurs.js';
 import MongoDB from "mongodb";
 
 const userName = 'user';
@@ -20,23 +19,16 @@ const options = {
 };
 //Collection Namen
 const PERSON_COLLECTION_NAME = "PERSON";
-const HOCHSCHULE_COLLECTION_NAME = "HOCHSCHULE";
 const KURS_COLLECTION_NAME = "KURS";
 //Objekte erzeugen
-var fh_muenster = new Hochschule("FA Münster");
 var studenten = [
-    new Student("tim", 22, fh_muenster, "1234"),
-    new Student("simon", 21, fh_muenster, "1235"),
-    new Student("kevin", 23, fh_muenster, "1236"),
-    new Student("pascal", 22, fh_muenster, "1237")
+    new Student("tim", 22, "1234"),
+    new Student("simon", 21, "1235"),
+    new Student("kevin", 23, "1236"),
+    new Student("pascal", 22, "1237")
 ];
-var professor = new Professor("Humernbrum", 30, fh_muenster);
-var kurs = new Kurs(
-    "BigData",
-    studenten,
-    professor,
-    fh_muenster,
-);
+var professor = new Professor("Humernbrum", 30);
+var kurs = new Kurs("BigData");
 
 MongoDB.MongoClient.connect(url, options, async (err, client) => {
     if (err) {
@@ -45,18 +37,21 @@ MongoDB.MongoClient.connect(url, options, async (err, client) => {
     } else {
             var db = client.db(databaseName);
             var personCollection = await db.collection(PERSON_COLLECTION_NAME); //creates collection by accessing a non existing one
-            var hochschuleCollection = await db.collection(HOCHSCHULE_COLLECTION_NAME);
             var kursCollection = await db.collection(KURS_COLLECTION_NAME)
 
             //### Todo: Hier ihre Lösung einfügen ###
 
+            await personCollection.insertMany([...studenten, professor]);
+            await kursCollection.insertOne(kurs);
 
+
+            var result = await personCollection.find({}).toArray();
+            console.log(result);
 
             //### Todo-Ende ###
-            
+
             //clear DB
             personCollection.deleteMany({});
-            hochschuleCollection.deleteMany({});
             kursCollection.deleteMany({});
         }
 });

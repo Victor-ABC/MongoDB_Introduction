@@ -2,7 +2,7 @@ console.log("##### Starting Demo #####");
 import Professor from './models/professor.js';
 import Student from './models/student.js';
 import Kurs from './models/kurs.js';
-import MongoDB from "mongodb";
+import MongoDB, { ObjectId } from "mongodb";
 
 const userName = 'user';
 const password = 'mypass';
@@ -21,6 +21,7 @@ const options = {
 const PERSON_COLLECTION_NAME = "PERSON";
 const KURS_COLLECTION_NAME = "KURS";
 //Objekte erzeugen
+const professors_primary_key = new ObjectId();
 var studenten = [
     new Student("Tim", 22, "1234"),
     new Student("Simon", 21, "1235"),
@@ -28,6 +29,7 @@ var studenten = [
     new Student("Pascal", 22, "1237")
 ];
 var professor = new Professor("Humernbrum", 30);
+professor["_id"] = professors_primary_key;
 var kurs = new Kurs("BigData");
 
 MongoDB.MongoClient.connect(url, options, async (err, client) => {
@@ -41,17 +43,6 @@ MongoDB.MongoClient.connect(url, options, async (err, client) => {
 
             //### Todo: Hier ihre Lösung einfügen ###
 
-            await personCollection.insertMany([...studenten, professor]);
-            await kursCollection.insertOne(kurs);
-
-            await kursCollection.updateOne({name: "BigData"}, {$set: {hoerer: [
-                await personCollection.findOne({name: "Tim"})
-            ]}})
-            await personCollection.updateOne({name: "Tim"}, {$set: {name: "Tim2"}});
-            var result = await kursCollection.findOne({});
-            var result2 = await personCollection.findOne({name: "Tim2"})
-            console.log(result);
-            console.log(result2);
             //### Todo-Ende ###
 
             //clear DB

@@ -43,28 +43,6 @@ MongoDB.MongoClient.connect(url, options, async (err, client) => {
 
             //### Todo: Hier ihre Lösung einfügen ###
 
-            await personCollection.insertMany([...studenten, professor]);
-            await kursCollection.insertOne(kurs);
-
-            //Tim wird 23
-            await personCollection.updateOne(
-                {
-                    name: "Tim"
-                },
-                {
-                    $set: {
-                        age: 23
-                    }
-                }
-            );
-            //Alle personen (Studente und Professoren), die älter sind als 22
-            var result = await personCollection.find({
-                age: {
-                    $gt: 22
-                }      
-            }).toArray();
-            console.log(result);
-
             //### Todo-Ende ###
 
             //clear DB

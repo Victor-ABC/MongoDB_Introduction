@@ -43,6 +43,12 @@ MongoDB.MongoClient.connect(url, options, async (err, client) => {
 
             //### Todo: Hier ihre Lösung einfügen ###
 
+            await personCollection.insertMany([...studenten, professor]);
+            await kursCollection.insertOne(kurs);
+
+            var result = await personCollection.find({}).toArray();
+            console.log(result);
+
             //### Todo-Ende ###
 
             //clear DB

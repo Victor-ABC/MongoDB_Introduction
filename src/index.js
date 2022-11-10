@@ -41,12 +41,12 @@ MongoDB.MongoClient.connect(url, options, async (err, client) => {
             var personCollection = await db.collection(PERSON_COLLECTION_NAME); //creates collection by accessing a non existing one
             var kursCollection = await db.collection(KURS_COLLECTION_NAME)
 
-            //### Todo: Hier ihre Lösung einfügen ###
+            // Todo: Hier ihre Lösung einfügen ###
 
             await personCollection.insertMany([...studenten, professor]);
             await kursCollection.insertOne(kurs);
 
-            //Tim wird 23
+            //Übung 2: Tim wird 23
             await personCollection.updateOne(
                 {
                     name: "Tim"
@@ -57,13 +57,37 @@ MongoDB.MongoClient.connect(url, options, async (err, client) => {
                     }
                 }
             );
-            //Alle personen (Studente und Professoren), die älter sind als 22
-            var result = await personCollection.find({
-                age: {
-                    $gt: 22
-                }      
-            }).toArray();
-            console.log(result);
+            //Übung 3
+            var bool = true;
+            if(bool) { //1. Variante:
+                await kursCollection.updateOne({
+                    name: "BigData"
+                }, {
+                    $set: {
+                        gelesenVon: await personCollection.findOne({name: "Humernbrum"})
+                    }
+                })
+                console.log( //Prof. abfragen, der den Kurs BigData liest.
+                    (await kursCollection.findOne({name: "BigData"})).gelesenVon
+                );
+            } else { //2. Variante:
+                await kursCollection.updateOne({
+                    name: "BigData"
+                }, {
+                    $set: {
+                        gelesenVon: professors_primary_key
+                    }
+                })
+                console.log( //Prof. abfragen, der den Kurs BigData liest.
+                    (await personCollection.findOne({
+                        _id: (await kursCollection.findOne({name: "BigData"})).gelesenVon
+                    }))
+                );
+            }
+            console.log("### Print Kurs-Dokument ###")
+            console.log( //print Kurs
+                (await kursCollection.findOne({name: "BigData"}))
+            );
 
             //### Todo-Ende ###
 

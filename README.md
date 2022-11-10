@@ -6,7 +6,7 @@ docker pull dubc/mongodb-4.0
 --> bis hier hin soll alles gemacht werden als Vorbereitung
 
 //3. start container, in dem mongodb läuft (mit user)
-docker run -d -p 27017:27017 -p 28017:28017 -e MONGODB_USER="user" -e MONGODB_DATABASE="mydatabase" -e MONGODB_PASS="mypass" --name mongo-4.0 dubc/mongodb-4.0
+docker run -d -p 27020:27017 -p 28020:28017 -e MONGODB_USER="user" -e MONGODB_DATABASE="mydatabase" -e MONGODB_PASS="mypass" --name mongo-4.0 dubc/mongodb-4.0
 
 
 //Skript ausführen (Terminal muss im aktuellen Verzeichnis sein, da relativer-pfad!)

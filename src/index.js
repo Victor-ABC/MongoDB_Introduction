@@ -7,7 +7,7 @@ import MongoDB, { ObjectId } from "mongodb";
 const userName = 'user';
 const password = 'mypass';
 const databaseName = 'mydatabase';
-const url = 'mongodb://localhost:27017';
+const url = 'mongodb://localhost:27020';
 const options = {   
     useNewUrlParser: true, 
     useUnifiedTopology: true,
@@ -43,51 +43,6 @@ MongoDB.MongoClient.connect(url, options, async (err, client) => {
 
             //### Todo: Hier ihre Lösung einfügen ###
 
-            await personCollection.insertMany([...studenten, professor]);
-            await kursCollection.insertOne(kurs);
-
-            //Übung 2: Tim wird 23
-            await personCollection.updateOne(
-                {
-                    name: "Tim"
-                },
-                {
-                    $set: {
-                        age: 23
-                    }
-                }
-            );
-            //Übung 3
-            var bool = true;
-            if(bool) { //1. Variante:
-                await kursCollection.updateOne({
-                    name: "BigData"
-                }, {
-                    $set: {
-                        gelesenVon: await personCollection.findOne({name: "Humernbrum"})
-                    }
-                })
-                console.log( //Prof. abfragen, der den Kurs BigData liest.
-                    (await kursCollection.findOne({name: "BigData"})).gelesenVon
-                );
-            } else { //2. Variante:
-                await kursCollection.updateOne({
-                    name: "BigData"
-                }, {
-                    $set: {
-                        gelesenVon: professors_primary_key
-                    }
-                })
-                console.log( //Prof. abfragen, der den Kurs BigData liest.
-                    (await personCollection.findOne({
-                        _id: (await kursCollection.findOne({name: "BigData"})).gelesenVon
-                    }))
-                );
-            }
-            console.log("### Print Kurs-Dokument ###")
-            console.log( //print Kurs
-                (await kursCollection.findOne({name: "BigData"}))
-            );
             //### Todo-Ende ###
 
             //clear DB
